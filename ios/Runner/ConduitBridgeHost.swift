@@ -119,5 +119,6 @@ enum ConduitBridgeRegistry {
     BackgroundStreamingHandler.shared.attach(to: host)
     ShareImportBridge.shared.attach(to: host)
     CookieBridge.shared.attach(to: host)
+    BrowserAuthBridge.shared.attach(to: host)
   }
 }

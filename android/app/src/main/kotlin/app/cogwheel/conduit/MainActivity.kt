@@ -525,6 +525,10 @@ class MainActivity : FlutterFragmentActivity() {
     private lateinit var imageGalleryBridge: ImageGalleryBridge
     private lateinit var telecomCallBridge: TelecomCallBridge
 
+    // Built with the activity: its Auth Tab result launcher must be
+    // registered before the activity starts.
+    private val browserAuthBridge = BrowserAuthBridge(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         reconcileInterruptedShareImportIfNeeded()
         sanitizeLaunchIntent(intent)?.let { setIntent(it) }
@@ -635,6 +639,7 @@ class MainActivity : FlutterFragmentActivity() {
         imageGalleryBridge.setup(flutterEngine)
         telecomCallBridge = TelecomCallBridge(this)
         telecomCallBridge.setup(flutterEngine)
+        browserAuthBridge.setup(flutterEngine)
 
         methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ASSISTANT_CHANNEL)
         assistantLaunches.reset()
@@ -761,6 +766,16 @@ class MainActivity : FlutterFragmentActivity() {
         if (insets.isVisible(WindowInsets.Type.ime())) return false
         flutterView.onApplyWindowInsets(insets)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        browserAuthBridge.onResume()
+    }
+
+    override fun onPause() {
+        browserAuthBridge.onPause()
+        super.onPause()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -1802,6 +1817,7 @@ class MainActivity : FlutterFragmentActivity() {
         if (::imageGalleryBridge.isInitialized) {
             imageGalleryBridge.dispose()
         }
+        browserAuthBridge.dispose()
         if (::backgroundStreamingHandler.isInitialized) {
             backgroundStreamingHandler.cleanup()
         }

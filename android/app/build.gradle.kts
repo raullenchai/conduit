@@ -83,6 +83,8 @@ dependencies {
     // Core library desugaring for flutter_local_notifications
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("androidx.activity:activity:1.12.4")
+    // Auth Tab and Custom Tabs for sign-in in the system browser.
+    implementation("androidx.browser:browser:1.9.0")
     implementation("com.google.mlkit:genai-speech-recognition:1.0.0-alpha1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     testImplementation("junit:junit:4.13.2")
